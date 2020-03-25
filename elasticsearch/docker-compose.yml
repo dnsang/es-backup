@@ -1,0 +1,60 @@
+version: '3.3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=false
+      - xpack.ml.enabled=false
+      - xpack.graph.enabled=false
+      - xpack.watcher.enabled=false      
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms1G -Xmx1G
+      - discovery.zen.minimum_master_nodes=1
+      - discovery.type=single-node  
+    ulimits:
+      nproc: 65535
+      memlock:
+        soft: -1
+        hard: -1
+    cap_add:
+      - ALL
+    privileged: true
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    volumes:
+      - ./eshome/data:/usr/share/elasticsearch/data
+      - ./eshome/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./eshome/logs:/usr/share/elasticsearch/logs
+    ports:
+      - 9200:9200
+      - 9300:9300
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:6.5.0
+  #   container_name: kibana
+  #   environment:
+  #     SERVER_NAME: localhost
+  #     ELASTICSEARCH_URL: http://elasticsearch:9200/      
+  #     xpack.monitoring.enabled: 'false'
+  #   ports:
+  #     - 5601:5601
+  #   ulimits:
+  #     nproc: 65535
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   cap_add:
+  #     - ALL
+  #   deploy:
+  #     mode: global
+  #     restart_policy:
+  #       condition: on-failure
+  #       delay: 5s
+  #       max_attempts: 3
+  #       window: 120s

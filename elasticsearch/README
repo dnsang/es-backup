@@ -1,0 +1,5 @@
+This docker-compose will launch elasticsearch cluster which will read config from eshome/config.
+It also write data & logs to eshome.
+Using docker-compose up to start & docker-compose down to stop.
+Only for dev environment.
+
