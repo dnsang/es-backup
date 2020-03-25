@@ -1,3 +1,5 @@
+elasticsearch/eshome/data
+elasticsearch/eshome/logs
 dist/
 *.log
 # Created by https://www.gitignore.io/api/maven,gradle,sbt,linux,windows,intellij,eclipse
